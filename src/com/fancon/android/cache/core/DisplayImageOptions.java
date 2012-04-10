@@ -1,10 +1,5 @@
 package com.fancon.android.cache.core;
 
-import com.fancon.android.cache.core.DecodingType;
-import com.fancon.android.cache.core.DisplayImageOptions;
-
-import com.fancon.android.cache.core.DecodingType;
-import com.fancon.android.cache.core.DisplayImageOptions;
 
 
 

@@ -7,9 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-
-import com.fancon.android.cache.disc.BaseDiscCache;
-
 /**
  * Abstract disc cache limited by some parameter. If cache exceeds specified limit then file with the most oldest last
  * usage date will be deleted.

@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.android.meshtiles;
+package com.fancon.android;
 
 public final class R {
     public static final class attr {
@@ -13,8 +13,12 @@ public final class R {
     public static final class drawable {
         public static int ic_launcher=0x7f020000;
     }
+    public static final class id {
+        public static int image_id=0x7f050000;
+    }
     public static final class layout {
-        public static int main=0x7f030000;
+        public static int image_cache_view=0x7f030000;
+        public static int main=0x7f030001;
     }
     public static final class string {
         public static int app_name=0x7f040001;

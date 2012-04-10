@@ -2,8 +2,6 @@ package com.fancon.android.cache.disc;
 
 import java.io.File;
 
-import com.fancon.android.cache.disc.DiscCacheAware;
-
 
 /**
  * Base disc cache. Implements common functionality for disc cache.
