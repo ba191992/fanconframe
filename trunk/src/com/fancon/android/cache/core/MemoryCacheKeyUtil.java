@@ -3,8 +3,6 @@ package com.fancon.android.cache.core;
 
 import java.util.Comparator;
 
-import com.fancon.android.cache.core.ImageSize;
-
 
 
 
