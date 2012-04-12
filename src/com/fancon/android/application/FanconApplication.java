@@ -15,7 +15,7 @@ import com.fancon.android.multithread.RequestQueue;
  * @author binhbt
  * 
  */
-public class FanconApplycation extends Application implements
+public class FanconApplication extends Application implements
 		IFanconGlobalState {
 
 	// RequestQueue instance.
