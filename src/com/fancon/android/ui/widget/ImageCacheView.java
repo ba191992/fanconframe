@@ -14,10 +14,11 @@ import com.fancon.android.cache.core.DisplayImageOptions;
 import com.fancon.android.cache.core.ImageLoader;
 import com.fancon.android.cache.core.ImageLoadingListener;
 import com.fancon.android.core.IFanconCache;
+
 /**
  * Cache Image can store image to disk and load image from network
- * @author binhbt
- * 2012
+ * 
+ * @author binhbt 2012
  */
 public class ImageCacheView extends RelativeLayout {
 
@@ -25,6 +26,8 @@ public class ImageCacheView extends RelativeLayout {
 	private ImageView mImage;
 	private ImageLoader imgLoader;
 	private View mBaseView;
+	private Integer loadingImg;
+	private Integer errorImg;
 
 	public ImageCacheView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -32,8 +35,7 @@ public class ImageCacheView extends RelativeLayout {
 		this.mContext = context;
 		LayoutInflater layoutInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mBaseView = layoutInflater.inflate(R.layout.image_cache_view,
-				this);
+		mBaseView = layoutInflater.inflate(R.layout.image_cache_view, this);
 		mImage = (ImageView) mBaseView.findViewById(R.id.image_id);
 		imgLoader = ((IFanconCache) mContext).getImageLoader();
 	}
@@ -42,6 +44,46 @@ public class ImageCacheView extends RelativeLayout {
 		if (resId != null) {
 			mImage.setBackgroundResource(resId);
 		}
+	}
+
+	public ImageView getmImage() {
+		return mImage;
+	}
+
+	public void setmImage(ImageView mImage) {
+		this.mImage = mImage;
+	}
+
+	public ImageLoader getImgLoader() {
+		return imgLoader;
+	}
+
+	public void setImgLoader(ImageLoader imgLoader) {
+		this.imgLoader = imgLoader;
+	}
+
+	public View getmBaseView() {
+		return mBaseView;
+	}
+
+	public void setmBaseView(View mBaseView) {
+		this.mBaseView = mBaseView;
+	}
+
+	public Integer getLoadingImg() {
+		return loadingImg;
+	}
+
+	public void setLoadingImg(Integer loadingImg) {
+		this.loadingImg = loadingImg;
+	}
+
+	public Integer getErrorImg() {
+		return errorImg;
+	}
+
+	public void setErrorImg(Integer errorImg) {
+		this.errorImg = errorImg;
 	}
 
 	/**
@@ -87,7 +129,9 @@ public class ImageCacheView extends RelativeLayout {
 
 					@Override
 					public void onLoadingFailed() {
-						// mImage.setImageResource(android.R.drawable.ic_delete);
+						if (errorImg != null) {
+							mImage.setImageResource(errorImg);
+						}
 					}
 
 					@Override
@@ -95,8 +139,10 @@ public class ImageCacheView extends RelativeLayout {
 					}
 				});
 	}
+
 	/**
 	 * Load image form url with scale param
+	 * 
 	 * @param url
 	 * @param isScale
 	 */
@@ -121,7 +167,9 @@ public class ImageCacheView extends RelativeLayout {
 
 					@Override
 					public void onLoadingFailed() {
-						// mImage.setImageResource(android.R.drawable.ic_delete);
+						if (errorImg != null) {
+							mImage.setImageResource(errorImg);
+						}
 					}
 
 					@Override
@@ -129,6 +177,7 @@ public class ImageCacheView extends RelativeLayout {
 					}
 				});
 	}
+
 	public Context getmContext() {
 		return mContext;
 	}
