@@ -118,9 +118,13 @@ public class ImageCacheView extends RelativeLayout {
 		// You can use simple call:
 		// imageLoader.displayImage(imageUrls.get(position), holder.image);
 		// instead of.
-		DisplayImageOptions options = new DisplayImageOptions.Builder()
-		// .showStubImage(R.drawable.stub_image).cacheInMemory()
-				.cacheInMemory().cacheOnDisc().build();
+		DisplayImageOptions options;
+		if(loadingImg !=null){
+			options = new DisplayImageOptions.Builder()
+			.showStubImage(loadingImg).cacheInMemory().cacheOnDisc().build();
+		}else{
+			options = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc().build();
+		}
 		imgLoader.displayImage(url, mImage, options,
 				new ImageLoadingListener() {
 					@Override
@@ -156,9 +160,13 @@ public class ImageCacheView extends RelativeLayout {
 		// You can use simple call:
 		// imageLoader.displayImage(imageUrls.get(position), holder.image);
 		// instead of.
-		DisplayImageOptions options = new DisplayImageOptions.Builder()
-		// .showStubImage(R.drawable.stub_image).cacheInMemory()
-				.cacheInMemory().cacheOnDisc().build();
+		DisplayImageOptions options ;
+		if(loadingImg !=null){
+			options = new DisplayImageOptions.Builder()
+			.showStubImage(loadingImg).cacheInMemory().cacheOnDisc().build();
+		}else{
+			options = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc().build();
+		}
 		imgLoader.displayImage(url, mImage, options,
 				new ImageLoadingListener() {
 					@Override
