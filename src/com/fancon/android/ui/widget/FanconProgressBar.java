@@ -11,26 +11,26 @@ import android.widget.TextView;
 
 import com.fancon.android.R;
 
-public class MeshProgressBar extends Dialog {
-	public static MeshProgressBar show(Context context, CharSequence title,
+public class FanconProgressBar extends Dialog {
+	public static FanconProgressBar show(Context context, CharSequence title,
 			CharSequence message) {
 		return show(context, title, message, false);
 	}
 
-	public static MeshProgressBar show(Context context, CharSequence title,
+	public static FanconProgressBar show(Context context, CharSequence title,
 			CharSequence message, boolean indeterminate) {
 		return show(context, title, message, indeterminate, false, null);
 	}
 
-	public static MeshProgressBar show(Context context, CharSequence title,
+	public static FanconProgressBar show(Context context, CharSequence title,
 			CharSequence message, boolean indeterminate, boolean cancelable) {
 		return show(context, title, message, indeterminate, cancelable, null);
 	}
 
-	public static MeshProgressBar show(Context context, CharSequence title,
+	public static FanconProgressBar show(Context context, CharSequence title,
 			CharSequence message, boolean indeterminate, boolean cancelable,
 			OnCancelListener cancelListener) {
-		MeshProgressBar dialog = new MeshProgressBar(context);
+		FanconProgressBar dialog = new FanconProgressBar(context);
 		dialog.setTitle(title);
 		dialog.setCancelable(cancelable);
 		dialog.setOnCancelListener(cancelListener);
@@ -42,18 +42,18 @@ public class MeshProgressBar extends Dialog {
 		return dialog;
 	}
 
-	public MeshProgressBar(Context context) {
+	public FanconProgressBar(Context context) {
 		//super(context, R.style.mesh_progress);
 		super(context, android.R.style.Theme_Translucent_NoTitleBar);
 	}
 	
 	
-	public static MeshProgressBar show(Context context, String title) {
-		MeshProgressBar dialog = new MeshProgressBar(context, title);
+	public static FanconProgressBar show(Context context, String title) {
+		FanconProgressBar dialog = new FanconProgressBar(context, title);
 		dialog.show();
 		return dialog;
 	}
-	public MeshProgressBar(Context context, String title) {
+	public FanconProgressBar(Context context, String title) {
 		//super(context, R.style.mesh_progress);
 		super(context, android.R.style.Theme_Translucent_NoTitleBar);
 		setContentView(R.layout.common_mesh_progress_bar);
