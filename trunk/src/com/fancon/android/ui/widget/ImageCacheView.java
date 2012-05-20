@@ -1,5 +1,6 @@
 package com.fancon.android.ui.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -37,7 +38,7 @@ public class ImageCacheView extends RelativeLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mBaseView = layoutInflater.inflate(R.layout.image_cache_view, this);
 		mImage = (ImageView) mBaseView.findViewById(R.id.image_id);
-		imgLoader = ((IFanconCache) mContext).getImageLoader();
+		imgLoader = ((IFanconCache) ((Activity)mContext).getApplication()).getImageLoader();
 	}
 
 	public void setBackgroundResource(Integer resId) {

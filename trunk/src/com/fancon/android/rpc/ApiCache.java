@@ -15,7 +15,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.fancon.android.utils.FileUtil;
-
+/**
+ * ApiCache use for cache api data
+ * get data from network, cache to cache folder
+ * use when network failed
+ * @author binhbt
+ */
 public class ApiCache {
 	public static final String CACHE_DIR = "api";
 	private static final int BUFFER_SIZE = 1024;
@@ -57,8 +62,7 @@ public class ApiCache {
 	}
 
 	/**
-	 * Get data from cache. If it is not existed, connect to server to get data
-	 * and save to cache
+	 * Get data from server. If it is not result, read from cache to get data
 	 * 
 	 * @param apiUrl
 	 * @return
@@ -70,15 +74,35 @@ public class ApiCache {
 		String fileName = hashKey(apiUrl);
 		InputStream in = getFromServer(apiUrl, fileName);
 		if (in != null) {
-			Log.d("CACHE API HIT", in.toString());
+			Log.d("Have network", in.toString());
 			return in;
 		} else {
 			in = checkAndGetFromCache(fileName);
+			Log.d("cache hit", in.toString());
+		}
+		return in;
+	}
+	/**
+	 * Get data from cache. If it is not existed, connect to server to get data
+	 * and save to cache
+	 * @param apiUrl
+	 * @return
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException
+	 */
+	public InputStream getApiDataWithCachePriority(String apiUrl) throws IOException,
+			NoSuchAlgorithmException {
+		String fileName = hashKey(apiUrl);
+		InputStream in = checkAndGetFromCache(fileName);
+		if (in != null) {
+			Log.d("CACHE API HIT", in.toString());
+			return in;
+		} else {
+			in = getFromServer(apiUrl, fileName);
 			Log.d("CACHE API MISS AND SAVE", in.toString());
 		}
 		return in;
 	}
-
 	/**
 	 * Load data from server and save cache
 	 * 
@@ -102,8 +126,6 @@ public class ApiCache {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.d("loi o cai chet tiet nay`",
-					"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		}
 		return inRet;
 

@@ -118,7 +118,17 @@ public class ApiConnect {
 			return null;
 		}
 	}
-
+	/**
+	 * Get Api Data with server data is 1st priority
+	 * Get from server dta
+	 * If has wifi or 3G => get from server
+	 * No => get from cache
+	 * @param strUrl
+	 * @param paramList
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws IOException
+	 */
 	public String getApiData(String strUrl, List<NameValuePair> paramList)
 			throws NoSuchAlgorithmException, IOException {
 		if (null != paramList) {
@@ -130,7 +140,28 @@ public class ApiConnect {
 		in.close();
 		return ret;
 	}
-
+	/**
+	 * Get Api Data with cache is 1st priority
+	 * Check in cache data
+	 * If exst in cache => get from cache
+	 * No => get from server
+	 * @param strUrl
+	 * @param paramList
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws IOException
+	 */
+	public String getApiDataWithCachePriority(String strUrl, List<NameValuePair> paramList)
+			throws NoSuchAlgorithmException, IOException {
+		if (null != paramList) {
+			strUrl += getStrParam(paramList);
+		}
+		ApiCache api = new ApiCache(mContext, ApiCache.CACHE_DIR);
+		InputStream in = api.getApiDataWithCachePriority(strUrl);
+		String ret = inputStreem2str(in);
+		in.close();
+		return ret;
+	}
 	/**
 	 * Post method
 	 * 

@@ -71,16 +71,13 @@ public class FanconBaseActivity extends Activity implements IFanconCache {
 	@Override
 	public void onPause() {
 		super.onPause();
-		// getGlobalState().getRequestQueue().setPaused(this, true);
 		freeMemory();
 		Log.d("Pause", "Free memory cache");
-		// mImgLoader.recycle();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		// getGlobalState().getRequestQueue().setPaused(this, false);
 		Log.d("Resume", "resume");
 	}
 

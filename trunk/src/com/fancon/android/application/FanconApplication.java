@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.fancon.android.cache.core.ImageLoader;
 import com.fancon.android.cache.core.ImageLoaderConfiguration;
+import com.fancon.android.core.IFanconCache;
 import com.fancon.android.core.IFanconGlobalState;
 import com.fancon.android.multithread.RequestQueue;
 
@@ -16,11 +17,11 @@ import com.fancon.android.multithread.RequestQueue;
  * 
  */
 public class FanconApplication extends Application implements
-		IFanconGlobalState {
+		IFanconGlobalState , IFanconCache{
 
 	// RequestQueue instance.
 	private RequestQueue mRequestQueue = null;
-
+	protected ImageLoader imageLoader = null;
 	@Override
 	public RequestQueue getRequestQueue() {
 		if (mRequestQueue == null) {
@@ -28,7 +29,6 @@ public class FanconApplication extends Application implements
 		}
 		return mRequestQueue;
 	}
-
 
 	@Override
 	public void onCreate() {
@@ -49,6 +49,15 @@ public class FanconApplication extends Application implements
 		// Initialize ImageLoader with configuration.
 		ImageLoader.getInstance().init(config);
 		//ImageLoader.getInstance().enableLogging(); // Not necessary in common
+	}
+
+	@Override
+	public ImageLoader getImageLoader() {
+		// TODO Auto-generated method stub
+		if(imageLoader == null){
+			imageLoader = ImageLoader.getInstance();
+		}
+		return imageLoader;
 	}
 
 }
