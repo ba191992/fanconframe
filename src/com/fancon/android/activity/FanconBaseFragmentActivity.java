@@ -1,11 +1,9 @@
 package com.fancon.android.activity;
 
-/**
- * MapBase Activity for meshtiles
- * @author binhbt
- */
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +11,16 @@ import android.view.ViewGroup;
 import com.fancon.android.cache.core.ImageLoader;
 import com.fancon.android.core.IFanconCache;
 import com.fancon.android.core.IFanconGlobalState;
-import com.google.android.maps.MapActivity;
-
-public class FanconMapBaseActivity extends MapActivity implements IFanconCache {
-
+/**
+ * Base Fragment Activity support for android v4.0
+ * @author binhbt
+ *
+ */
+public class FanconBaseFragmentActivity extends FragmentActivity implements IFanconCache{
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
-	/* Contain activity you have pass */
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	}
 
@@ -52,16 +50,12 @@ public class FanconMapBaseActivity extends MapActivity implements IFanconCache {
 	}
 
 	@Override
-	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
 		freeMemory();
 		super.finish();
 	}
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -83,6 +77,12 @@ public class FanconMapBaseActivity extends MapActivity implements IFanconCache {
 		Log.d("Resume", "resume");
 	}
 
+	public Context getRoot() {
+		if (this.getParent() != null) {
+			return this.getParent();
+		}
+		return this;
+	}
 
 	protected void unbindDrawables(View view) {
 		try {
@@ -99,7 +99,7 @@ public class FanconMapBaseActivity extends MapActivity implements IFanconCache {
 					// TODO: handle exception
 				}
 			}
-			view = null;
+			 view = null;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -111,7 +111,7 @@ public class FanconMapBaseActivity extends MapActivity implements IFanconCache {
 		// TODO Auto-generated method stub
 		super.onLowMemory();
 		try {
-			imageLoader.clearMemoryCache();
+			freeMemory();
 			Log.d("Low memory", "Free memory now!");
 			System.gc();
 			Runtime.getRuntime().gc();
@@ -125,6 +125,7 @@ public class FanconMapBaseActivity extends MapActivity implements IFanconCache {
 		// TODO Auto-generated method stub
 		return imageLoader;
 	}
+
 	protected void freeMemory() {
 		try {
 			Log.d("free memory", "free all rq, cch");
@@ -138,5 +139,4 @@ public class FanconMapBaseActivity extends MapActivity implements IFanconCache {
 			e.printStackTrace();
 		}
 	}
-	
 }
