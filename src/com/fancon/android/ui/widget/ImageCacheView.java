@@ -29,6 +29,7 @@ public class ImageCacheView extends RelativeLayout {
 	private View mBaseView;
 	private Integer loadingImg;
 	private Integer errorImg;
+
 	public ImageCacheView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
@@ -37,8 +38,10 @@ public class ImageCacheView extends RelativeLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mBaseView = layoutInflater.inflate(R.layout.image_cache_view, this);
 		mImage = (ImageView) mBaseView.findViewById(R.id.image_id);
-		imgLoader = ((IFanconCache) ((Activity)mContext).getApplication()).getImageLoader();
+		imgLoader = ((IFanconCache) ((Activity) mContext).getApplication())
+				.getImageLoader();
 	}
+
 	public ImageCacheView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
@@ -47,7 +50,8 @@ public class ImageCacheView extends RelativeLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mBaseView = layoutInflater.inflate(R.layout.image_cache_view, this);
 		mImage = (ImageView) mBaseView.findViewById(R.id.image_id);
-		imgLoader = ((IFanconCache) ((Activity)mContext).getApplication()).getImageLoader();
+		imgLoader = ((IFanconCache) ((Activity) mContext).getApplication())
+				.getImageLoader();
 	}
 
 	public void setBackgroundResource(Integer resId) {
@@ -129,11 +133,13 @@ public class ImageCacheView extends RelativeLayout {
 		// imageLoader.displayImage(imageUrls.get(position), holder.image);
 		// instead of.
 		DisplayImageOptions options;
-		if(loadingImg !=null){
+		if (loadingImg != null) {
 			options = new DisplayImageOptions.Builder()
-			.showStubImage(loadingImg).cacheInMemory().cacheOnDisc().build();
-		}else{
-			options = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc().build();
+					.showStubImage(loadingImg).cacheInMemory().cacheOnDisc()
+					.build();
+		} else {
+			options = new DisplayImageOptions.Builder().cacheInMemory()
+					.cacheOnDisc().build();
 		}
 		imgLoader.displayImage(url, mImage, options,
 				new ImageLoadingListener() {
@@ -166,34 +172,7 @@ public class ImageCacheView extends RelativeLayout {
 		} else {
 
 		}
-		// Full "displayImage" method using.
-		// You can use simple call:
-		// imageLoader.displayImage(imageUrls.get(position), holder.image);
-		// instead of.
-		DisplayImageOptions options ;
-		if(loadingImg !=null){
-			options = new DisplayImageOptions.Builder()
-			.showStubImage(loadingImg).cacheInMemory().cacheOnDisc().build();
-		}else{
-			options = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc().build();
-		}
-		imgLoader.displayImage(url, mImage, options,
-				new ImageLoadingListener() {
-					@Override
-					public void onLoadingStarted() {
-					}
-
-					@Override
-					public void onLoadingFailed() {
-						if (errorImg != null) {
-							mImage.setImageResource(errorImg);
-						}
-					}
-
-					@Override
-					public void onLoadingComplete() {
-					}
-				});
+		loadImage(url);
 	}
 
 	public Context getmContext() {
