@@ -29,7 +29,16 @@ public class ImageCacheView extends RelativeLayout {
 	private View mBaseView;
 	private Integer loadingImg;
 	private Integer errorImg;
-
+	public ImageCacheView(Context context) {
+		super(context);
+		// TODO Auto-generated constructor stub
+		this.mContext = context;
+		LayoutInflater layoutInflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mBaseView = layoutInflater.inflate(R.layout.image_cache_view, this);
+		mImage = (ImageView) mBaseView.findViewById(R.id.image_id);
+		imgLoader = ((IFanconCache) ((Activity)mContext).getApplication()).getImageLoader();
+	}
 	public ImageCacheView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
