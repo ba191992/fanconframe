@@ -2,6 +2,7 @@ package com.fancon.android.ui.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -190,5 +191,7 @@ public class ImageCacheView extends RelativeLayout {
 	public void setImage(ImageView image) {
 		this.mImage = image;
 	}
-
+	public void setImageBitmap(Bitmap bm){
+		this.mImage.setImageBitmap(bm);
+	}
 }
