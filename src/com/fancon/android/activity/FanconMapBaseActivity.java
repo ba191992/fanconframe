@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import com.fancon.android.cache.core.ImageLoader;
 import com.fancon.android.core.IFanconCache;
 import com.fancon.android.core.IFanconGlobalState;
+import com.fancon.android.multithread.RequestQueue;
 import com.google.android.maps.MapActivity;
 
-public class FanconMapBaseActivity extends MapActivity implements IFanconCache {
+public class FanconMapBaseActivity extends MapActivity implements IFanconCache, IFanconGlobalState {
 
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
 	/* Contain activity you have pass */
@@ -137,6 +138,12 @@ public class FanconMapBaseActivity extends MapActivity implements IFanconCache {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public RequestQueue getRequestQueue() {
+		// TODO Auto-generated method stub
+		return ((IFanconGlobalState) getApplication()).getRequestQueue();
 	}
 	
 }

@@ -11,12 +11,13 @@ import android.view.ViewGroup;
 import com.fancon.android.cache.core.ImageLoader;
 import com.fancon.android.core.IFanconCache;
 import com.fancon.android.core.IFanconGlobalState;
+import com.fancon.android.multithread.RequestQueue;
 /**
  * Base Fragment Activity support for android v4.0
  * @author binhbt
  *
  */
-public class FanconBaseFragmentActivity extends FragmentActivity implements IFanconCache{
+public class FanconBaseFragmentActivity extends FragmentActivity implements IFanconCache, IFanconGlobalState{
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
 
 	@Override
@@ -138,5 +139,11 @@ public class FanconBaseFragmentActivity extends FragmentActivity implements IFan
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public RequestQueue getRequestQueue() {
+		// TODO Auto-generated method stub
+		return ((IFanconGlobalState) getApplication()).getRequestQueue();
 	}
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.fancon.android.cache.core.ImageLoader;
 import com.fancon.android.core.IFanconCache;
 import com.fancon.android.core.IFanconGlobalState;
+import com.fancon.android.multithread.RequestQueue;
 
 /**
  * Base class for all activities within this application. This class provides
@@ -19,7 +20,7 @@ import com.fancon.android.core.IFanconGlobalState;
  * @author binhbt
  * 
  */
-public class FanconBaseActivity extends Activity implements IFanconCache {
+public class FanconBaseActivity extends Activity implements IFanconCache, IFanconGlobalState {
 
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -142,5 +143,11 @@ public class FanconBaseActivity extends Activity implements IFanconCache {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public RequestQueue getRequestQueue() {
+		// TODO Auto-generated method stub
+		return ((IFanconGlobalState) getApplication()).getRequestQueue();
 	}
 }
