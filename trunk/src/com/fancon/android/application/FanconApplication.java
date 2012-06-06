@@ -1,6 +1,6 @@
 package com.fancon.android.application;
 
-import android.app.Application;
+import roboguice.application.RoboApplication;
 
 import com.fancon.android.cache.core.ImageLoader;
 import com.fancon.android.cache.core.ImageLoaderConfiguration;
@@ -16,7 +16,7 @@ import com.fancon.android.multithread.RequestQueue;
  * @author binhbt
  * 
  */
-public class FanconApplication extends Application implements
+public class FanconApplication extends RoboApplication implements
 		IFanconGlobalState , IFanconCache{
 
 	// RequestQueue instance.
