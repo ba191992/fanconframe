@@ -30,6 +30,7 @@ public class ImageCacheView extends RelativeLayout {
 	private View mBaseView;
 	private Integer loadingImg;
 	private Integer errorImg;
+	private ImageLoadingListener imageLoadingListener = null;
 
 	public ImageCacheView(Context context) {
 		super(context);
@@ -142,23 +143,26 @@ public class ImageCacheView extends RelativeLayout {
 			options = new DisplayImageOptions.Builder().cacheInMemory()
 					.cacheOnDisc().build();
 		}
-		imgLoader.displayImage(url, mImage, options,
-				new ImageLoadingListener() {
-					@Override
-					public void onLoadingStarted() {
-					}
+		if (imageLoadingListener == null) {
+			imageLoadingListener = new ImageLoadingListener() {
+				@Override
+				public void onLoadingStarted() {
+				}
 
-					@Override
-					public void onLoadingFailed() {
-						if (errorImg != null) {
-							mImage.setImageResource(errorImg);
-						}
+				@Override
+				public void onLoadingFailed() {
+					if (errorImg != null) {
+						mImage.setImageResource(errorImg);
 					}
+				}
 
-					@Override
-					public void onLoadingComplete() {
-					}
-				});
+				@Override
+				public void onLoadingComplete() {
+				}
+			};
+		}
+		imgLoader.displayImage(url, mImage, options, imageLoadingListener);
+
 	}
 
 	/**
@@ -191,7 +195,17 @@ public class ImageCacheView extends RelativeLayout {
 	public void setImage(ImageView image) {
 		this.mImage = image;
 	}
-	public void setImageBitmap(Bitmap bm){
+
+	public void setImageBitmap(Bitmap bm) {
 		this.mImage.setImageBitmap(bm);
 	}
+
+	public ImageLoadingListener getImageLoadingListener() {
+		return imageLoadingListener;
+	}
+
+	public void setImageLoadingListener(ImageLoadingListener imageLoadingListener) {
+		this.imageLoadingListener = imageLoadingListener;
+	}
+	
 }
