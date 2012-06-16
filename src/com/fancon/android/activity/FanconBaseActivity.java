@@ -5,13 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
+import com.fancon.android.R;
 import com.fancon.android.cache.core.ImageLoader;
 import com.fancon.android.core.IFanconCache;
 import com.fancon.android.core.IFanconGlobalState;
 import com.fancon.android.multithread.RequestQueue;
+import com.fancon.android.ui.widget.IProgress;
 
 /**
  * Base class for all activities within this application. This class provides
@@ -20,10 +27,10 @@ import com.fancon.android.multithread.RequestQueue;
  * @author binhbt
  * 
  */
-public class FanconBaseActivity extends Activity implements IFanconCache, IFanconGlobalState {
+public class FanconBaseActivity extends Activity implements IFanconCache, IFanconGlobalState, IProgress {
 
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
-
+	protected PopupWindow popupWindow;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,7 +79,8 @@ public class FanconBaseActivity extends Activity implements IFanconCache, IFanco
 	@Override
 	public void onPause() {
 		super.onPause();
-		freeMemory();
+		dismissProgress();
+		//freeMemory();
 		Log.d("Pause", "Free memory cache");
 	}
 
@@ -149,5 +157,71 @@ public class FanconBaseActivity extends Activity implements IFanconCache, IFanco
 	public RequestQueue getRequestQueue() {
 		// TODO Auto-generated method stub
 		return ((IFanconGlobalState) getApplication()).getRequestQueue();
+	}
+	@Override
+	public void showProgress(String title) {
+		try {
+			if (popupWindow == null) {
+				LayoutInflater layoutInflater = (LayoutInflater) this
+						.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+				View popupView = layoutInflater.inflate(
+						R.layout.common_mesh_progress_bar, null);
+				TextView message = (TextView) popupView
+						.findViewById(R.id.progress_text);
+				message.setText(title);
+				popupWindow = new PopupWindow(popupView,
+						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			}
+			final View v = findViewById(android.R.id.content);
+			v.post(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+	}
+
+	@Override
+	public void dismissProgress() {
+		try {
+			if (popupWindow != null && popupWindow.isShowing()) {
+				popupWindow.dismiss();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	@Override
+	public void showProgress(final View v, String title) {
+		// TODO Auto-generated method stub
+		try {
+			if (popupWindow == null) {
+				LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+				View popupView = layoutInflater.inflate(
+						R.layout.common_mesh_progress_bar, null);
+				TextView message = (TextView) popupView
+						.findViewById(R.id.progress_text);
+				message.setText(title);
+				popupWindow = new PopupWindow(popupView,
+						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			}
+			v.post(new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
 	}
 }
