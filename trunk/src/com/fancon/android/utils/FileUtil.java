@@ -34,7 +34,7 @@ import android.util.Log;
 
 public class FileUtil {
 	private static final int BUFFER_SIZE = 8 * 1024;
-	private static final String NOMEDIA_FILENAME = ".nomedia";
+	public static final String NOMEDIA_FILENAME = ".nomedia";
 	private static final long CACHE_FILE_EXPIRATION = DateUtils.DAY_IN_MILLIS * 30;
 	private static final String LOGCAT_NAME = "FileUtil";
 
