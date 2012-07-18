@@ -10,7 +10,6 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -99,7 +98,7 @@ public class SqlHelper extends SQLiteOpenHelper {
 		OutputStream outStream = null;
 		String dbFilePath = DATABASE_PATH + DATABASE_NAME;
 		try {
-			AssetManager a = mContext.getAssets();
+//			AssetManager a = mContext.getAssets();
 			inputStream = mContext.getAssets().open(DATABASE_NAME);
 			outStream = new FileOutputStream(dbFilePath);
 			byte[] buffer = new byte[1024];
@@ -243,7 +242,7 @@ public class SqlHelper extends SQLiteOpenHelper {
 		String sql = "select * from tbl_added_user where uuid = '" + uuid + "'";
 		Cursor mCursor = dbSqlite.rawQuery(sql, null);
 		((Activity) mContext).startManagingCursor(mCursor);
-		int i = mCursor.getCount();
+//		int i = mCursor.getCount();
 		if (mCursor.getCount() == 1) {
 			return true;
 		}

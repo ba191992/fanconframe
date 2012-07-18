@@ -71,7 +71,7 @@ public abstract class FanconApiService {
 		}
 		try {
 			return inputStreem2str(in);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
