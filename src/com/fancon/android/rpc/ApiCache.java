@@ -35,7 +35,7 @@ import com.fancon.android.utils.FileUtil;
  * @author binhbt
  */
 public class ApiCache {
-	public static final long CACHE_API_EXPIRATION = 2*DateUtils.MINUTE_IN_MILLIS;
+	public static final long CACHE_API_EXPIRATION = 10*DateUtils.MINUTE_IN_MILLIS;
 	public static final String CACHE_DIR = "api";
 	private static final int BUFFER_SIZE = 1024;
 	public static final String LOGCAT_NAME = "ApiCache";
