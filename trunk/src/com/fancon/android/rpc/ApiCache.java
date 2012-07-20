@@ -264,7 +264,7 @@ public class ApiCache {
 					- cacheFile.lastModified() >= cacheExpiration
 					&& !FileUtil.NOMEDIA_FILENAME.equals(cacheFile.getName()))) {
 				Log.i(LOGCAT_NAME, "deleting " + cacheFile.getPath());
-				cacheFile.delete();
+				//cacheFile.delete();
 				return null;
 			}
 			try {
