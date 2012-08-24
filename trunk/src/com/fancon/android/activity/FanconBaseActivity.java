@@ -197,7 +197,11 @@ public class FanconBaseActivity extends Activity implements IFanconCache, IFanco
 			// TODO: handle exception
 		}
 	}
-
+	@Override
+	protected void onStop() {
+		imageLoader.stop();
+		super.onStop();
+	}
 	@Override
 	public void showProgress(final View v, String title) {
 		// TODO Auto-generated method stub
