@@ -1,8 +1,11 @@
 package com.fancon.android.ui.widget;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import com.fancon.android.R;
 import com.fancon.android.cache.core.DisplayImageOptions;
 import com.fancon.android.cache.core.ImageLoader;
 import com.fancon.android.cache.core.ImageLoadingListener;
+import com.fancon.android.cache.utils.StorageUtils;
 import com.fancon.android.core.IFanconCache;
 
 /**
@@ -36,24 +40,20 @@ public class ImageCacheView extends RelativeLayout {
 		super(context);
 		// TODO Auto-generated constructor stub
 		this.mContext = context;
-		LayoutInflater layoutInflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mBaseView = layoutInflater.inflate(R.layout.image_cache_view, this);
 		mImage = (ImageView) mBaseView.findViewById(R.id.image_id);
-		imgLoader = ((IFanconCache) ((Activity) mContext).getApplication())
-				.getImageLoader();
+		imgLoader = ((IFanconCache) ((Activity) mContext).getApplication()).getImageLoader();
 	}
 
 	public ImageCacheView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 		this.mContext = context;
-		LayoutInflater layoutInflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mBaseView = layoutInflater.inflate(R.layout.image_cache_view, this);
 		mImage = (ImageView) mBaseView.findViewById(R.id.image_id);
-		imgLoader = ((IFanconCache) ((Activity) mContext).getApplication())
-				.getImageLoader();
+		imgLoader = ((IFanconCache) ((Activity) mContext).getApplication()).getImageLoader();
 	}
 
 	public void setBackgroundResource(Integer resId) {
@@ -134,35 +134,34 @@ public class ImageCacheView extends RelativeLayout {
 		// You can use simple call:
 		// imageLoader.displayImage(imageUrls.get(position), holder.image);
 		// instead of.
-		DisplayImageOptions options;
-		if (loadingImg != null) {
-			options = new DisplayImageOptions.Builder()
-					.showStubImage(loadingImg).cacheInMemory().cacheOnDisc()
-					.build();
-		} else {
-			options = new DisplayImageOptions.Builder().cacheInMemory()
-					.cacheOnDisc().build();
-		}
-		if (imageLoadingListener == null) {
-			imageLoadingListener = new ImageLoadingListener() {
-				@Override
-				public void onLoadingStarted() {
-				}
-
-				@Override
-				public void onLoadingFailed() {
-					if (errorImg != null) {
-						mImage.setImageResource(errorImg);
+		if (!hasLocal(url)) {
+			DisplayImageOptions options;
+			if (loadingImg != null) {
+				options = new DisplayImageOptions.Builder().showStubImage(loadingImg).cacheInMemory().cacheOnDisc()
+						.build();
+			} else {
+				options = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc().build();
+			}
+			if (imageLoadingListener == null) {
+				imageLoadingListener = new ImageLoadingListener() {
+					@Override
+					public void onLoadingStarted() {
 					}
-				}
 
-				@Override
-				public void onLoadingComplete() {
-				}
-			};
+					@Override
+					public void onLoadingFailed() {
+						if (errorImg != null) {
+							mImage.setImageResource(errorImg);
+						}
+					}
+
+					@Override
+					public void onLoadingComplete() {
+					}
+				};
+			}
+			imgLoader.displayImage(url, mImage, options, imageLoadingListener);
 		}
-		imgLoader.displayImage(url, mImage, options, imageLoadingListener);
-
 	}
 
 	/**
@@ -207,5 +206,27 @@ public class ImageCacheView extends RelativeLayout {
 	public void setImageLoadingListener(ImageLoadingListener imageLoadingListener) {
 		this.imageLoadingListener = imageLoadingListener;
 	}
-	
+
+	/**
+	 * Check image has saved in cache or not
+	 * 
+	 * @param url
+	 * @return
+	 */
+	private Boolean hasLocal(String url) {
+		File cacheDir = StorageUtils.getIndividualCacheDirectory(getContext());
+		File file = new File(cacheDir, String.valueOf(url.hashCode()));
+		if (file.exists()) {
+			try {
+				Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+				mImage.setImageBitmap(bitmap);
+			} catch (Exception e) {
+				e.printStackTrace();
+				// TODO: handle exception
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
 }
