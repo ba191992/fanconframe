@@ -62,7 +62,7 @@ public class FanconBaseFragmentActivity extends FragmentActivity implements IFan
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
-		freeMemory();
+		//freeMemory();
 		super.finish();
 	}
 
