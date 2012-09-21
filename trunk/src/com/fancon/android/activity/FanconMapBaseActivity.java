@@ -68,7 +68,7 @@ public class FanconMapBaseActivity extends MapActivity implements IFanconCache, 
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
-		freeMemory();
+		//freeMemory();
 		super.finish();
 	}
 	@Override

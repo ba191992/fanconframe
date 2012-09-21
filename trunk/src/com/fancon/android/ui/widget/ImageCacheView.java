@@ -134,7 +134,7 @@ public class ImageCacheView extends RelativeLayout {
 		// You can use simple call:
 		// imageLoader.displayImage(imageUrls.get(position), holder.image);
 		// instead of.
-		if (!hasLocal(url)) {
+		//if (!hasLocal(url)) {
 			DisplayImageOptions options;
 			if (loadingImg != null) {
 				options = new DisplayImageOptions.Builder().showStubImage(loadingImg).cacheInMemory().cacheOnDisc()
@@ -161,7 +161,7 @@ public class ImageCacheView extends RelativeLayout {
 				};
 			}
 			imgLoader.displayImage(url, mImage, options, imageLoadingListener);
-		}
+		//}
 	}
 
 	/**

@@ -64,7 +64,7 @@ public class FanconBaseActivity extends Activity implements IFanconCache, IFanco
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
-		freeMemory();
+		//freeMemory();
 		super.finish();
 	}
 
