@@ -9,7 +9,7 @@ import com.fancon.android.core.IFanconGlobalState;
 import com.fancon.android.multithread.RequestQueue;
 
 /**
- * MeshTilesApplycation class extends Application and is used as base class for
+ * FanconApplycation class extends Application and is used as base class for
  * our application. It is used for storing application wide data among
  * Activities.
  * 

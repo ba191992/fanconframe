@@ -1,6 +1,5 @@
 package com.fancon.android.cache.core;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,11 +18,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
-import com.fancon.android.cache.utils.FileUtils;
+import com.fancon.android.ui.widget.ImageCacheView;
+import com.fancon.android.ui.widget.XImageview;
+import com.fancon.android.utils.ImageHelper;
 ;
 
 
@@ -111,7 +117,7 @@ public class ImageLoader {
 	 * @throws RuntimeException
 	 *             if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public void displayImage(String url, ImageView imageView) {
+	public void displayImage(String url, XImageview imageView) {
 		displayImage(url, imageView, null, null);
 	}
 
@@ -131,7 +137,7 @@ public class ImageLoader {
 	 * @throws RuntimeException
 	 *             if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public void displayImage(String url, ImageView imageView, DisplayImageOptions options) {
+	public void displayImage(String url, XImageview imageView, DisplayImageOptions options) {
 		displayImage(url, imageView, options, null);
 	}
 
@@ -153,7 +159,7 @@ public class ImageLoader {
 	 * @throws RuntimeException
 	 *             if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public void displayImage(String url, ImageView imageView, ImageLoadingListener listener) {
+	public void displayImage(String url, XImageview imageView, ImageLoadingListener listener) {
 		displayImage(url, imageView, null, listener);
 	}
 
@@ -178,7 +184,7 @@ public class ImageLoader {
 	 * @throws RuntimeException
 	 *             if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public void displayImage(String url, ImageView imageView, DisplayImageOptions options, ImageLoadingListener listener) {
+	public void displayImage(String url, XImageview imageView, DisplayImageOptions options, ImageLoadingListener listener) {
 		if (configuration == null) {
 			throw new RuntimeException(ERROR_NOT_INIT);
 		}
@@ -344,13 +350,13 @@ public class ImageLoader {
 	/** Information about display image task */
 	private final class ImageLoadingInfo {
 		private final String url;
-		private final ImageView imageView;
+		private final XImageview imageView;
 		private final ImageSize targetSize;
 		private final DisplayImageOptions options;
 		private final ImageLoadingListener listener;
 		private final String memoryCacheKey;
 
-		public ImageLoadingInfo(String url, ImageView imageView, ImageSize targetSize, DisplayImageOptions options, ImageLoadingListener listener) {
+		public ImageLoadingInfo(String url, XImageview imageView, ImageSize targetSize, DisplayImageOptions options, ImageLoadingListener listener) {
 			this.url = url;
 			this.imageView = imageView;
 			this.targetSize = targetSize;
@@ -487,22 +493,118 @@ public class ImageLoader {
 		}
 
 		private void saveImageOnDisc(File targetFile) throws MalformedURLException, IOException {
-			HttpURLConnection conn = (HttpURLConnection) new URL(imageLoadingInfo.url).openConnection();
-			conn.setConnectTimeout(configuration.httpConnectTimeout);
-			conn.setReadTimeout(configuration.httpReadTimeout);
-			BufferedInputStream is = new BufferedInputStream(conn.getInputStream());
 			try {
-				OutputStream os = new FileOutputStream(targetFile);
-				try {
-					FileUtils.copyStream(is, os);
-				} finally {
-					os.close();
+				HttpURLConnection conn = (HttpURLConnection) new URL(imageLoadingInfo.url).openConnection();
+				conn.setConnectTimeout(configuration.httpConnectTimeout);
+				conn.setReadTimeout(configuration.httpReadTimeout);
+				// mod by @binhbt
+				int quality = 90;
+				// roundcorner here
+				if (imageLoadingInfo.options.isRoundCorner()) {
+					Bitmap bm = BitmapFactory.decodeStream(conn.getInputStream());
+					bm = ImageHelper.getRoundedCornerBitmap(bm, 4);
+					try {
+						FileOutputStream out = new FileOutputStream(targetFile);
+						//@mod by binhbt to compress image befor display
+						try{
+							if(ImageCacheView.isComPressMax){
+								quality = 50;
+//								File f = configuration.discCache.get(imageLoadingInfo.url);
+//								try {
+//									long realSize = f.length();
+//									quality = (int) (5 * ImageCacheView.X_SIZE / realSize);
+//									quality = quality > 90 ? 90 : quality;
+//								} catch (Exception e) {
+//									e.printStackTrace();
+//								}
+								bm = convertColorIntoBlackAndWhiteImage(bm);
+							}
+							}catch (Exception e) {
+								e.printStackTrace();
+							}
+							//
+						bm.compress(Bitmap.CompressFormat.JPEG, quality, out);	
+						//bm.compress(Bitmap.CompressFormat.PNG, quality, out);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						bm.recycle();
+					}
+				} else {
+					// nature/not round
+//					BufferedInputStream is = new BufferedInputStream(conn.getInputStream());
+//					try {
+//						OutputStream os = new FileOutputStream(targetFile);
+//						try {
+//							FileUtils.copyStream(is, os);
+//						} finally {
+//							os.close();
+//						}
+//					} finally {
+//						is.close();
+//					}
+					Bitmap bm = BitmapFactory.decodeStream(conn.getInputStream());
+					try {
+						//@mod by binhbt to compress image befor display
+						try{
+							if(ImageCacheView.isComPressMax){
+								quality = 50;
+//								File f = configuration.discCache.get(imageLoadingInfo.url);
+//								try {
+//									long realSize = f.length();
+//									quality = (int) (5 * ImageCacheView.X_SIZE / realSize);
+//									quality = quality > 90 ? 90 : quality;
+//								} catch (Exception e) {
+//									e.printStackTrace();
+//								}
+								bm = convertColorIntoBlackAndWhiteImage(bm);
+							}
+							}catch (Exception e) {
+								e.printStackTrace();
+							}
+
+						OutputStream os = new FileOutputStream(targetFile);
+						bm.compress(Bitmap.CompressFormat.JPEG, quality, os);	
+					} finally {
+						//is.close();
+					}
 				}
-			} finally {
-				is.close();
+			} catch (OutOfMemoryError e) {
+				Runtime.getRuntime().gc();
+				System.gc();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+	    private Bitmap convertColorIntoBlackAndWhiteImage(Bitmap orginalBitmap) {
+	        ColorMatrix colorMatrix = new ColorMatrix();
+	        colorMatrix.setSaturation(0);
 
+	        ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(
+	                colorMatrix);
+
+	        Bitmap blackAndWhiteBitmap = orginalBitmap.copy(
+	                Bitmap.Config.ARGB_8888, true);
+
+	        Paint paint = new Paint();
+	        paint.setColorFilter(colorMatrixFilter);
+
+	        Canvas canvas = new Canvas(blackAndWhiteBitmap);
+	        canvas.drawBitmap(blackAndWhiteBitmap, 0, 0, paint);
+
+	        return blackAndWhiteBitmap;
+	    }
+//	    public Bitmap convertToBlackAndWhite(Bitmap sampleBitmap){
+//	    	ColorMatrix bwMatrix =new ColorMatrix();
+//	    	bwMatrix.setSaturation(0);
+//	    	final ColorMatrixColorFilter colorFilter= new ColorMatrixColorFilter(bwMatrix);
+//	    	Bitmap rBitmap = sampleBitmap.copy(Bitmap.Config.ARGB_8888, true);
+//	    	Paint paint=new Paint();
+//	    	paint.setColorFilter(colorFilter);
+//	    	Canvas myCanvas =new Canvas(rBitmap);
+//	    	myCanvas.drawBitmap(rBitmap, 0, 0, paint);
+//	    	return rBitmap;
+//	    	}
 		private void fireImageLoadingFailedEvent() {
 			tryRunOnUiThread(new Runnable() {
 				@Override

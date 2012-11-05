@@ -1,7 +1,7 @@
 package com.fancon.android.activity;
 
 /**
- * MapBase Activity for meshtiles
+ * MapBase Activity 
  * @author binhbt
  */
 import android.app.Activity;

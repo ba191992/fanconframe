@@ -170,7 +170,8 @@ public class ApiCache {
 				mSavedOk = saveCacheData(fileName, in);
 			}
 			if (mSavedOk) {
-				inRet = checkAndGetFromCache(fileName);
+				//inRet = checkAndGetFromCache(fileName);
+				inRet = getApiFromCache(apiUrl);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -245,7 +246,7 @@ public class ApiCache {
 			e.printStackTrace();
 			return null;
 		}
-		return null;
+		return httpURLConnection;
 	}
 
 	/**

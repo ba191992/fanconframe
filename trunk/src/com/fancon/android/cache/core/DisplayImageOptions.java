@@ -1,9 +1,6 @@
 package com.fancon.android.cache.core;
 
 
-
-
-
 /**
  * Contains options for image display. Defines:
  * <ul>
@@ -30,13 +27,19 @@ public final class DisplayImageOptions {
 	private final boolean cacheInMemory;
 	private final boolean cacheOnDisc;
 	private final DecodingType decodingType;
-
+	//mod by @binhbt
+	private final boolean isRound;
+	private final boolean isLocalOnly;
+	
 	private DisplayImageOptions(Builder builder) {
 		stubImage = builder.stubImage;
 		imageForEmptyUrl = builder.imageForEmptyUrl;
 		cacheInMemory = builder.cacheInMemory;
 		cacheOnDisc = builder.cacheOnDisc;
 		decodingType = builder.decodingType;
+		//
+		isRound = builder.isRound;
+		isLocalOnly = builder.isLocalOnly;
 	}
 
 	boolean isShowStubImage() {
@@ -62,7 +65,12 @@ public final class DisplayImageOptions {
 	boolean isCacheOnDisc() {
 		return cacheOnDisc;
 	}
-
+	boolean isRoundCorner(){
+		return isRound;
+	}
+	boolean isLocalOnly(){
+		return isLocalOnly;
+	}
 	DecodingType getDecodingType() {
 		return decodingType;
 	}
@@ -78,7 +86,9 @@ public final class DisplayImageOptions {
 		private boolean cacheInMemory = false;
 		private boolean cacheOnDisc = false;
 		private DecodingType decodingType = DecodingType.FAST;
-
+		//mod by @binhbt
+		private boolean isRound = false;
+		private boolean isLocalOnly = false;
 		/**
 		 * Stub image will be displayed in {@link android.widget.ImageView ImageView} during image loading
 		 * 
@@ -107,7 +117,15 @@ public final class DisplayImageOptions {
 			cacheInMemory = true;
 			return this;
 		}
-
+		/** Loaded image will be cached in memory */
+		public Builder roundedCorner() {
+			isRound = true;
+			return this;
+		}
+		public Builder localOnly(){
+			isLocalOnly = true;
+			return this;
+		}
 		/** Loaded image will be cached on disc */
 		public Builder cacheOnDisc() {
 			cacheOnDisc = true;
