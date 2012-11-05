@@ -14,14 +14,16 @@ public final class R {
         public static int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static int image_id=0x7f050002;
-        public static int progress_text=0x7f050001;
-        public static int progressbar_id=0x7f050000;
+        public static int image_id=0x7f050000;
+        public static int progress_text=0x7f050002;
+        public static int progressbar_id=0x7f050001;
     }
     public static final class layout {
-        public static int common_mesh_progress_bar=0x7f030000;
-        public static int image_cache_view=0x7f030001;
-        public static int main=0x7f030002;
+        public static int circle_image_cache_view=0x7f030000;
+        public static int common_mesh_progress_bar=0x7f030001;
+        public static int image_cache_view=0x7f030002;
+        public static int main=0x7f030003;
+        public static int round_corner_image_cache_view=0x7f030004;
     }
     public static final class string {
         public static int app_name=0x7f040001;

@@ -17,6 +17,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
@@ -32,7 +33,7 @@ import android.util.Log;
  * 
  */
 public class ApiConnect {
-	private Context mContext;
+	protected Context mContext;
 
 	public ApiConnect(Context context) {
 		this.mContext = context;
@@ -45,7 +46,7 @@ public class ApiConnect {
 	 *            : Server API Group đang sử dụng (A,F,L...)
 	 * 
 	 * @param method
-	 *            : Method để get dữ liệu v�?
+	 *            : Method để get dữ liệu v�?
 	 * 
 	 * @param paramList
 	 *            : Danh sách các tham số dạng NameValuePair
@@ -85,7 +86,7 @@ public class ApiConnect {
 	 *            : Server API Group đang sử dụng (A,F,L...)
 	 * 
 	 * @param method
-	 *            : Method để get dữ liệu v�?
+	 *            : Method để get dữ liệu v�?
 	 * 
 	 * @param paramList
 	 *            : Danh sách các tham số dạng NameValuePair
@@ -169,7 +170,7 @@ public class ApiConnect {
 	 *            : Server API Group đang sử dụng (A,F,L...)
 	 * 
 	 * @param method
-	 *            : Method để lấy dữ liệu v�? hoặc post dữ liệu lên server
+	 *            : Method để lấy dữ liệu v�? hoặc post dữ liệu lên server
 	 * 
 	 * @param paramList
 	 *            : Danh sách các tham số dạng NameValuePair
@@ -210,24 +211,24 @@ public class ApiConnect {
 	 * 
 	 * @return params URL
 	 */
-	static private String getStrParam(List<NameValuePair> params) {
+	static public String getStrParam(List<NameValuePair> params) {
 		String ret = "?";
-		boolean flgAdd = false;
-
-		for (int i = 0; params.size() > i; i++) {
-			NameValuePair nvp = params.get(i);
-
-			if (flgAdd) {
-				ret += "&";
-			}
-
-			ret += nvp.getName() + "=" + nvp.getValue();
-
-			flgAdd = true;
-
-		}
-
-		return ret;
+		/*
+		 * boolean flgAdd = false;
+		 * 
+		 * for (int i = 0; params.size() > i; i++) { NameValuePair nvp =
+		 * params.get(i);
+		 * 
+		 * if (flgAdd) { ret += "&"; }
+		 * 
+		 * ret += nvp.getName() + "=" + nvp.getValue();
+		 * 
+		 * flgAdd = true;
+		 * 
+		 * }
+		 */
+		// Edited by Manhnt, encoded params
+		return ret + URLEncodedUtils.format(params, "utf8");
 
 	}
 

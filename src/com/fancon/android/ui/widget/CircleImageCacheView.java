@@ -21,42 +21,35 @@ import com.fancon.android.cache.core.ImageLoadingListener;
 import com.fancon.android.cache.utils.StorageUtils;
 import com.fancon.android.core.IFanconCache;
 
-/**
- * Cache Image can store image to disk and load image from network
- * 
- * @author binhbt 2012
- */
-public class ImageCacheView extends RelativeLayout {
+public class CircleImageCacheView  extends RelativeLayout {
 	public static int X_SIZE = 1709084;
 	public static Boolean isComPressMax = false;
 	private Context mContext;
-	private XImageview mImage;
+	private CircleImageView mImage;
 	private ImageLoader imgLoader;
 	private View mBaseView;
 	private Integer loadingImg;
 	private Integer errorImg;
 	private ImageLoadingListener imageLoadingListener = null;
 
-	public ImageCacheView(Context context) {
+	public CircleImageCacheView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		this.mContext = context;
 		LayoutInflater layoutInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mBaseView = layoutInflater.inflate(R.layout.image_cache_view, this);
-		mImage = (XImageview) mBaseView.findViewById(R.id.image_id);
+		mBaseView = layoutInflater.inflate(R.layout.circle_image_cache_view, this);
+		mImage = (CircleImageView) mBaseView.findViewById(R.id.image_id);
 		imgLoader = ((IFanconCache) ((Activity) mContext).getApplication())
 				.getImageLoader();
 	}
 
-	public ImageCacheView(Context context, AttributeSet attrs) {
+	public CircleImageCacheView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 		this.mContext = context;
 		LayoutInflater layoutInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mBaseView = layoutInflater.inflate(R.layout.image_cache_view, this);
-		mImage = (XImageview) mBaseView.findViewById(R.id.image_id);
+		mBaseView = layoutInflater.inflate(R.layout.circle_image_cache_view, this);
+		mImage = (CircleImageView) mBaseView.findViewById(R.id.image_id);
 		imgLoader = ((IFanconCache) ((Activity) mContext).getApplication())
 				.getImageLoader();
 	}
@@ -71,7 +64,7 @@ public class ImageCacheView extends RelativeLayout {
 		return mImage;
 	}
 
-	public void setmImage(XImageview mImage) {
+	public void setmImage(CircleImageView mImage) {
 		this.mImage = mImage;
 	}
 
@@ -207,11 +200,11 @@ public class ImageCacheView extends RelativeLayout {
 		this.mContext = mContext;
 	}
 
-	public ImageView getImage() {
+	public CircleImageView getImage() {
 		return mImage;
 	}
 
-	public void setImage(XImageview image) {
+	public void setImage(CircleImageView image) {
 		this.mImage = image;
 	}
 
